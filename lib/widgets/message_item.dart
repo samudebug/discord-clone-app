@@ -1,4 +1,5 @@
 import 'package:discord_clone_app/core/models/message.dart';
+import 'package:discord_clone_app/widgets/attachment_item/attachment_item.dart';
 import 'package:discord_clone_app/widgets/user_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,17 +44,22 @@ class MessageItem extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
+              if(message.content.isNotEmpty && !message.content.isURL) Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
                 child: Text(
-                  message.content,
+                   message.content,
                   style: context.theme.textTheme.bodyMedium,
                 ),
-              )
+              ),
+              if (message.attachment != null)
+                Container(
+                    child: AttachmentItem(
+                  attachment: message.attachment!,
+                ))
             ],
           ),
-        )
+        ),
       ],
     );
   }

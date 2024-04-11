@@ -55,7 +55,8 @@ class DiscordCloneApp extends StatelessWidget {
         GetPage(
             name: '/chats/:chatId',
             page: () => ChatPage(),
-            binding: ChatPageBinding())
+            binding: ChatPageBinding(),
+            transition: Transition.cupertino)
       ],
     );
   }
