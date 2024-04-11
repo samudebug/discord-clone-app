@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "708447009891",
+    "firebase_url": "https://literalivre.firebaseio.com",
+    "project_id": "literalivre",
+    "storage_bucket": "literalivre.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:708447009891:android:479858458d0528c2a20c56",
+        "android_client_info": {
+          "package_name": "com.samuel.discord_clone_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "708447009891-dnukb3bdpcrgp09hjm5l9klnt1lqh78m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuyLuRp4JEsc2kQWs_tf1_L4HJTX5xwuY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "708447009891-dnukb3bdpcrgp09hjm5l9klnt1lqh78m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
