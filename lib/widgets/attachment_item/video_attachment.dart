@@ -25,6 +25,12 @@ class _VideoAttachmentItemState extends State<VideoAttachmentItem> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(alignment: Alignment.center, children: [
       FutureBuilder(

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:discord_clone_app/core/models/chat.dart';
@@ -12,12 +13,28 @@ class ChatPageController extends GetxController {
   final loading = true.obs;
   final isLoadingMore = false.obs;
   final canFetchMore = true.obs;
+  late final StreamSubscription subscription;
 
   int currentPage = 0;
-
   ChatPageController() {
+    messages.clear();
+    chat.value = null;
     fetchChat();
     fetchMessages();
+    connectToChat();
+  }
+  @override
+  void onInit() {
+    super.onInit();
+
+  }
+
+  @override
+  void onClose() {
+    log("On close called", name: "ChatPageController");
+    chatRepo.disconnectFromChat();
+    subscription.cancel();
+    super.onClose();
   }
 
   fetchChat() async {
@@ -26,6 +43,18 @@ class ChatPageController extends GetxController {
     log("Chat ID is not null $chatId", name: "ChatPageController");
     chat.value = await chatRepo.getChat(chatId: chatId);
     log("Chat Set ${chat.value?.id}");
+  }
+
+  connectToChat() async {
+    final chatId = Get.parameters['chatId'];
+
+    if (chatId == null) return;
+
+    await chatRepo.connectToChat(chatId: chatId);
+    log("Chat connect requested", name: "ChatPageController");
+    subscription = chatRepo.messagesStream.listen((event) {
+      messages.insert(0, event);
+    });
   }
 
   fetchMessages() async {
@@ -47,6 +76,17 @@ class ChatPageController extends GetxController {
     } finally {
       loading.value = false;
       isLoadingMore.value = false;
+    }
+  }
+
+  sendMessage(String message) async {
+    try {
+      final chatId = Get.parameters['chatId'];
+      if (chatId == null) throw ("Chat ID not set!");
+      await chatRepo.sendMessage(chatId: chatId!, content: message);
+    } catch (e) {
+      Get.snackbar("Erro", "Ocorreu um erro");
+      log(e.toString(), error: e);
     }
   }
 }

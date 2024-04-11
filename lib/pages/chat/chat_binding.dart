@@ -4,6 +4,6 @@ import 'package:get/get.dart';
 class ChatPageBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => ChatPageController());
+    Get.create(() => ChatPageController());
   }
 }

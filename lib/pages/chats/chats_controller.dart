@@ -21,9 +21,21 @@ class ChatsPageController extends GetxController {
     init();
   }
 
+  @override
+  void onInit() {
+    super.onInit();
+    log("On Init called", name: "ChatsPageController");
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    log("On Ready called", name: "ChatsPageController");
+  }
+
   init() async {
     final Profile? profile = await profileRepo.getProfile();
-
+    log('Profile ${profile?.completedOnboarding}', name: "ChatsPageController");
     if (profile == null || !profile.completedOnboarding) {
       log("Has not completed onboarding", name: "ChatsPageController");
       Get.offAllNamed('/onboarding');
