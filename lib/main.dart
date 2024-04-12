@@ -9,6 +9,10 @@ import 'package:discord_clone_app/pages/initial/initial_bindings.dart';
 import 'package:discord_clone_app/pages/initial/initial_view.dart';
 import 'package:discord_clone_app/pages/onboarding/onboarding_bindings.dart';
 import 'package:discord_clone_app/pages/onboarding/onboarding_view.dart';
+import 'package:discord_clone_app/pages/profile/profile_binding.dart';
+import 'package:discord_clone_app/pages/profile/profile_view.dart';
+import 'package:discord_clone_app/pages/profile_edit/profile_edit_binding.dart';
+import 'package:discord_clone_app/pages/profile_edit/profile_edit_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -56,7 +60,17 @@ class DiscordCloneApp extends StatelessWidget {
             name: '/chats/:chatId',
             page: () => ChatPage(),
             binding: ChatPageBinding(),
-            transition: Transition.cupertino)
+            transition: Transition.cupertino),
+        GetPage(
+            name: '/profile',
+            page: () => ProfilePage(),
+            binding: ProfilePageBinding()),
+        GetPage(
+            name: '/profile/edit',
+            page: () => ProfileEditPage(),
+            binding: ProfileEditPageBinding(),
+            fullscreenDialog: true,
+            transition: Transition.downToUp)
       ],
     );
   }

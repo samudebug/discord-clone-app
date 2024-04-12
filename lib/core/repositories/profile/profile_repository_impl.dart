@@ -13,7 +13,6 @@ class ProfileRepositoryImpl extends GetConnect implements ProfileRepository {
     httpClient.baseUrl = Environment.apiUrl;
 
     httpClient.addRequestModifier<dynamic>((request) async {
-      log('url ${request.url}');
       final token = await authRepo.getToken();
       if (token != null) {
         request.headers['Authorization'] = token;
@@ -49,9 +48,12 @@ class ProfileRepositoryImpl extends GetConnect implements ProfileRepository {
       'uid': uid,
       'username': username,
       'displayName': displayName,
-      'photoUrl': photoUrl,
       'completedOnboarding': completedOnboarding
     };
+
+    if (photoUrl.isNotEmpty) {
+      body['photoUrl'] = photoUrl;
+    }
 
     final response = await patch('/profile/me', body);
     if (response.statusCode != 200) {

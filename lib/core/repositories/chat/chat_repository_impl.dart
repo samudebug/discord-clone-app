@@ -19,7 +19,6 @@ class ChatRepositoryImpl extends GetConnect implements ChatRepository {
     httpClient.baseUrl = Environment.apiUrl;
 
     httpClient.addRequestModifier<dynamic>((request) async {
-      log('url ${request.url}');
       final token = await authRepo.getToken();
       if (token != null) {
         request.headers['Authorization'] = token;

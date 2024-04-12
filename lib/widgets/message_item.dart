@@ -37,9 +37,12 @@ class MessageItem extends StatelessWidget {
                       style: context.theme.textTheme.titleSmall
                           ?.copyWith(fontWeight: FontWeight.w700),
                     ),
-                    Text(
-                      DateFormat("EEEE, HH:mm").format(message.createdAt),
-                      style: context.theme.textTheme.labelSmall,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: Text(
+                        DateFormat("EEEE, HH:mm").format(message.createdAt),
+                        style: context.theme.textTheme.labelSmall,
+                      ),
                     ),
                   ],
                 ),
