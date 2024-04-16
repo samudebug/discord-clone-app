@@ -35,7 +35,8 @@ class ProfileEditPageController extends GetxController {
             uid: profile.value!.uid,
             username: profile.value!.username,
             displayName: displayNameController.text,
-            photoUrl: imageUrl.value);
+            photoUrl: imageUrl.value,
+            completedOnboarding: true);
         Get.back();
       } catch (e) {
         Get.snackbar("Error", "Ocorreu um erro");

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:discord_clone_app/core/environment.dart';
+import 'package:discord_clone_app/core/models/paginated_result.dart';
 import 'package:discord_clone_app/core/models/profile.dart';
 import 'package:discord_clone_app/core/repositories/auth/auth_repository.dart';
 import 'package:discord_clone_app/core/repositories/profile/profile_repository.dart';
@@ -75,5 +76,26 @@ class ProfileRepositoryImpl extends GetConnect implements ProfileRepository {
       throw ("An error has ocurred");
     }
     return response.body['available'];
+  }
+
+  @override
+  Future<PaginatedResult<Profile>> searchProfiles(
+      {required String query}) async {
+    final response =
+        await get('/profile', query: {'search': query, 'page': 1.toString()});
+
+    if (response.statusCode != 200) {
+      log("Response code ${response.statusCode}", name: "ProfileRepository");
+      log("Response body ${response.body}", name: "ProfileRepository");
+      throw ("An error has ocurred");
+    }
+    
+    final List<Profile> profiles = (response.body['results'] as List<dynamic>)
+        .map((e) => Profile.fromJson(e))
+        .toList();
+    return PaginatedResult(
+        total: response.body['total'],
+        results: profiles,
+        page: response.body['page']);
   }
 }

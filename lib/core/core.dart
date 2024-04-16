@@ -2,6 +2,8 @@ import 'package:discord_clone_app/core/repositories/auth/auth_repository.dart';
 import 'package:discord_clone_app/core/repositories/auth/auth_repository_firebase.dart';
 import 'package:discord_clone_app/core/repositories/chat/chat_repository.dart';
 import 'package:discord_clone_app/core/repositories/chat/chat_repository_impl.dart';
+import 'package:discord_clone_app/core/repositories/connections/connections_repository.dart';
+import 'package:discord_clone_app/core/repositories/connections/connections_repository_impl.dart';
 import 'package:discord_clone_app/core/repositories/profile/profile_repository.dart';
 import 'package:discord_clone_app/core/repositories/profile/profile_repository_impl.dart';
 import 'package:discord_clone_app/core/repositories/storage/storage_repository.dart';
@@ -13,8 +15,11 @@ import 'package:get/get.dart';
 initRepositories() async {
   await Get.putAsync<AuthRepository>(() async => AuthRepositoryFirebase());
   await Get.putAsync<ProfileRepository>(() async => ProfileRepositoryImpl());
-  await Get.putAsync<StorageRepository>(() async => StorageRepositoryFirebase());
+  await Get.putAsync<StorageRepository>(
+      () async => StorageRepositoryFirebase());
   await Get.putAsync<ChatRepository>(() async => ChatRepositoryImpl());
+  await Get.putAsync<ConnectionsRepository>(
+      () async => ConnectionsRepositoryImpl());
 }
 
 initServices() async {

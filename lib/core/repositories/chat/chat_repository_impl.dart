@@ -44,7 +44,7 @@ class ChatRepositoryImpl extends GetConnect implements ChatRepository {
     return PaginatedResult(
         total: response.body['total'],
         results: chats,
-        page: int.parse(response.body['page']));
+        page: response.body['page']);
   }
 
   @override
@@ -141,5 +141,44 @@ class ChatRepositoryImpl extends GetConnect implements ChatRepository {
     chatSocket.disconnect();
     chatSocket.dispose();
     chatSocket.close();
+  }
+
+  @override
+  Future<Chat?> getChatWith({required String chatWith}) async {
+    final response =
+        await get('/chats', query: {'page': 1.toString(), 'with': chatWith});
+
+    if (response.statusCode != 200) {
+      log('Response status code: ${response.statusCode}',
+          name: 'ChatRepository');
+      log('Response body: ${response.body}', name: 'ChatRepository');
+      throw ('An error has ocurred');
+    }
+
+    if ((response.body['results'] as List<dynamic>).isEmpty) {
+      return null;
+    }
+
+    final chats = (response.body['results'] as List<dynamic>)
+        .map((e) => Chat.fromJson(e))
+        .toList();
+    return chats[0];
+  }
+
+  @override
+  Future<Chat> createChat(
+      {required String myProfile, required String chatWith}) async {
+    final response = await post('/chats', {
+      'members': [myProfile, chatWith]
+    });
+
+    if (response.statusCode != 200) {
+      log('Response status code: ${response.statusCode}',
+          name: 'ChatRepository');
+      log('Response body: ${response.body}', name: 'ChatRepository');
+      throw ('An error has ocurred');
+    }
+    final chat = Chat.fromJson(response.body);
+    return chat;
   }
 }

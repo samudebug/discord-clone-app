@@ -59,13 +59,14 @@ class ProfilePage extends GetView<ProfilePageController> {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () => Get.toNamed('/profile/friends'),
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 decoration: BoxDecoration(
                     color: context.theme.colorScheme.secondaryContainer,
                     borderRadius: BorderRadius.circular(8)),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Seus amigos"),

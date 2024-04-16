@@ -1,10 +1,14 @@
 import 'package:discord_clone_app/core/core.dart';
 import 'package:discord_clone_app/core/services/auth_service.dart';
 import 'package:discord_clone_app/firebase_options.dart';
+import 'package:discord_clone_app/pages/add_friend/add_friend_binding.dart';
+import 'package:discord_clone_app/pages/add_friend/add_friend_view.dart';
 import 'package:discord_clone_app/pages/chat/chat_binding.dart';
 import 'package:discord_clone_app/pages/chat/chat_view.dart';
 import 'package:discord_clone_app/pages/chats/chats_bindings.dart';
 import 'package:discord_clone_app/pages/chats/chats_view.dart';
+import 'package:discord_clone_app/pages/friends/friends_bindings.dart';
+import 'package:discord_clone_app/pages/friends/friends_view.dart';
 import 'package:discord_clone_app/pages/initial/initial_bindings.dart';
 import 'package:discord_clone_app/pages/initial/initial_view.dart';
 import 'package:discord_clone_app/pages/onboarding/onboarding_bindings.dart';
@@ -69,6 +73,18 @@ class DiscordCloneApp extends StatelessWidget {
             name: '/profile/edit',
             page: () => ProfileEditPage(),
             binding: ProfileEditPageBinding(),
+            fullscreenDialog: true,
+            transition: Transition.downToUp),
+        GetPage(
+            name: '/profile/friends',
+            page: () => FriendsPage(),
+            binding: FriendsPageBinding(),
+            fullscreenDialog: true,
+            transition: Transition.downToUp),
+        GetPage(
+            name: '/profile/addFriend',
+            page: () => AddFriendPage(),
+            binding: AddFriendPageBinding(),
             fullscreenDialog: true,
             transition: Transition.downToUp)
       ],

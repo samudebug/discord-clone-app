@@ -6,6 +6,9 @@ abstract class ChatRepository {
   Future<PaginatedResult<Chat>> getChats({int? page});
   Future<PaginatedResult<Message>> getMessages({required String chatId,int? page});
   Future<Chat> getChat({required String chatId});
+  Future<Chat?> getChatWith({required String chatWith});
+  Future<Chat> createChat({required String myProfile, required String chatWith});
+  // messages
   Future<void> sendMessage({required String chatId,required String content});
   Future<void> connectToChat({required String chatId});
   Stream<Message> get messagesStream;
