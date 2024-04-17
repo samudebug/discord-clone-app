@@ -14,23 +14,33 @@ class FriendsPage extends GetView<FriendsPageController> {
           centerTitle: true,
           actions: [
             TextButton(
-                onPressed: () => Get.toNamed('/profile/addFriend'),
+                onPressed: () => controller.goToAddFriend(),
                 child: const Text("Adicionar Amigos"))
           ],
         ),
         body: Padding(
             padding: const EdgeInsets.all(16),
             child: Obx(
-              () => ListView.builder(
-                  itemCount: controller.friends.length,
-                  itemBuilder: (context, index) {
-                    final item = controller.friends[index];
-                    return FriendItem(
-                      profile: item.profiles[0],
-                      isFriend: item.status == ConnectionStatus.APPROVED,
-                      onMessageTap: (chatWith) => controller.goToChat(chatWith),
-                    );
-                  }),
+              () => controller.friends.isEmpty
+                  ? Center(
+                      child: Text(
+                          "Sem amigos aqui. Mas você pode adicionar mais clicando em 'mais amigos'"),
+                    )
+                  : ListView.builder(
+                      itemCount: controller.friends.length,
+                      itemBuilder: (context, index) {
+                        final item = controller.friends[index];
+                        return FriendItem(
+                          profile: controller.friends[index].profiles[0],
+                          isFriend: controller.friends[index].status == ConnectionStatus.APPROVED,
+                          onMessageTap: (chatWith) =>
+                              controller.goToChat(chatWith),
+                          wasRequestSentByMe:
+                              (controller.profile.value?.id ?? "") == item.from,
+                          onFriendAccept: () => controller.onFriendAccept(connectionId: item.id),
+                          onFriendDecline: () => controller.onFriendDecline(connectionId: item.id),
+                        );
+                      }),
             )),
       ),
     );

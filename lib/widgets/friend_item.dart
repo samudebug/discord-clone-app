@@ -4,10 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class FriendItem extends StatelessWidget {
-  const FriendItem({super.key, required this.profile, required this.isFriend, required this.onMessageTap});
+  const FriendItem(
+      {super.key,
+      required this.profile,
+      required this.isFriend,
+      required this.onMessageTap,
+      required this.wasRequestSentByMe,
+      required this.onFriendAccept,
+      required this.onFriendDecline});
   final Profile profile;
   final bool isFriend;
   final void Function(String chatWith) onMessageTap;
+  final bool wasRequestSentByMe;
+  final void Function() onFriendAccept;
+  final void Function() onFriendDecline;
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +58,25 @@ class FriendItem extends StatelessWidget {
                   backgroundColor: context.theme.colorScheme.primary,
                   foregroundColor: context.theme.colorScheme.onPrimary),
             )
-          else
+          else if (wasRequestSentByMe)
             Text("Pendente")
+          else
+            Container(
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child:
+                        IconButton(onPressed: onFriendDecline, icon: Icon(Icons.clear)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child:
+                        IconButton(onPressed: onFriendAccept, icon: Icon(Icons.check)),
+                  )
+                ],
+              ),
+            )
         ],
       ),
     );

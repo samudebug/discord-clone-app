@@ -32,6 +32,7 @@ class ProfileRepositoryImpl extends GetConnect implements ProfileRepository {
       throw ("An error has ocurred");
     }
     if (response.statusCode == 404) {
+      log("Profile is null", name: "ProfileRepository");
       return null;
     }
     final profile = Profile.fromJson(response.body);
@@ -89,7 +90,7 @@ class ProfileRepositoryImpl extends GetConnect implements ProfileRepository {
       log("Response body ${response.body}", name: "ProfileRepository");
       throw ("An error has ocurred");
     }
-    
+    log("Response body: ${response.body}", name: "ProfileRepository");
     final List<Profile> profiles = (response.body['results'] as List<dynamic>)
         .map((e) => Profile.fromJson(e))
         .toList();

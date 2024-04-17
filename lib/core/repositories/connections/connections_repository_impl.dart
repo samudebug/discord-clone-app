@@ -26,14 +26,14 @@ class ConnectionsRepositoryImpl extends GetConnect
   @override
   Future<List<Connection>> getConnections({ConnectionStatus? status}) async {
     final query = <String, dynamic>{};
-    // if (status != null) {
-    //   query['status'] = status.name;
-    // }
+    if (status != null) {
+      query['status'] = status.name;
+    }
     final response = await get('/connections', query: query);
 
     if (response.statusCode != 200) {
-      log("Response code ${response.statusCode}", name: "ProfileRepository");
-      log("Response body ${response.body}", name: "ProfileRepository");
+      log("Response code ${response.statusCode}", name: "ConnectionRepository");
+      log("Response body ${response.body}", name: "ConnectionRepository");
       throw ("An error has ocurred");
     }
     final List<Connection> connections = (response.body as List<dynamic>)
@@ -43,10 +43,8 @@ class ConnectionsRepositoryImpl extends GetConnect
   }
 
   @override
-  Future<Connection> createConnection({required String to}) async  {
-    final body = <String, dynamic>{
-      'to': to
-    };
+  Future<Connection> createConnection({required String to}) async {
+    final body = <String, dynamic>{'to': to};
     final response = await post('/connections', body);
 
     if (response.statusCode == 401) {
@@ -54,13 +52,44 @@ class ConnectionsRepositoryImpl extends GetConnect
     }
 
     if (response.statusCode != 201 && response.statusCode != 401) {
-
-      log("Response code ${response.statusCode}", name: "ProfileRepository");
-      log("Response body ${response.body}", name: "ProfileRepository");
+      log("Response code ${response.statusCode}", name: "ConnectionRepository");
+      log("Response body ${response.body}", name: "ConnectionRepository");
       throw ("An error has ocurred");
     }
 
     final connection = Connection.fromJson(response.body);
     return connection;
+  }
+
+  @override
+  Future<Connection> acceptConnection({required String id}) async {
+    final response = await patch(
+        '/connections/$id', {'status': ConnectionStatus.APPROVED.name});
+    if (response.statusCode == 404) {
+      throw ("This connection does not exist");
+    }
+
+    if (response.statusCode != 200 && response.statusCode != 404) {
+      log("Response code ${response.statusCode}", name: "ConnectionRepository");
+      log("Response body ${response.body}", name: "ConnectionRepository");
+      throw ("An error has ocurred");
+    }
+
+    final connection = Connection.fromJson(response.body);
+    return connection;
+  }
+
+  @override
+  Future<void> declineConnection({required String id}) async {
+    final response = await delete('/connections/$id');
+    if (response.statusCode == 404) {
+      throw ("This connection does not exist");
+    }
+
+    if (response.statusCode != 200 && response.statusCode != 404) {
+      log("Response code ${response.statusCode}", name: "ConnectionRepository");
+      log("Response body ${response.body}", name: "ConnectionRepository");
+      throw ("An error has ocurred");
+    }
   }
 }

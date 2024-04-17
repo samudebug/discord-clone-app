@@ -58,20 +58,40 @@ class ProfilePage extends GetView<ProfilePageController> {
                     )),
               ),
             ),
-            GestureDetector(
-              onTap: () => Get.toNamed('/profile/friends'),
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                decoration: BoxDecoration(
-                    color: context.theme.colorScheme.secondaryContainer,
-                    borderRadius: BorderRadius.circular(8)),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Seus amigos"),
-                    Icon(Icons.keyboard_arrow_right)
-                  ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: GestureDetector(
+                onTap: () => Get.toNamed('/profile/friends'),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  decoration: BoxDecoration(
+                      color: context.theme.colorScheme.secondaryContainer,
+                      borderRadius: BorderRadius.circular(8)),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Seus amigos"),
+                      Icon(Icons.keyboard_arrow_right)
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: GestureDetector(
+                onTap: () => controller.signOut(),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  decoration: BoxDecoration(
+                      color: context.theme.colorScheme.errorContainer,
+                      borderRadius: BorderRadius.circular(8)),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [Text("Sair"), Icon(Icons.keyboard_arrow_right)],
+                  ),
                 ),
               ),
             ),
