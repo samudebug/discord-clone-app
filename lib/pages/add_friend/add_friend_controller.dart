@@ -36,6 +36,7 @@ class AddFriendPageController extends GetxController {
       await connectionRepo.createConnection(to: to);
       results.firstWhereOrNull((p0) => p0.id == to)?.status =
           ConnectionStatus.PENDING;
+      results.refresh();
       Get.snackbar(
           "Sucesso!", "Uma solicitação de amizade foi enviada ao usuário");
     } catch (e) {

@@ -22,9 +22,9 @@ class FriendsPageController extends GetxController {
 
   void init() async {
     try {
+      profile.value = await profileRepo.getProfile();
       friends.value = await connectionRepo.getConnections(
           status: ConnectionStatus.APPROVED);
-      profile.value = await profileRepo.getProfile();
       log("Profile $profile");
     } catch (e) {
       log(e.toString(), error: e);

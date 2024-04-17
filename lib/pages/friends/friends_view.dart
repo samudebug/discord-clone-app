@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:discord_clone_app/core/models/connection.dart';
 import 'package:discord_clone_app/pages/friends/friends_controller.dart';
 import 'package:discord_clone_app/widgets/friend_item.dart';
@@ -30,15 +32,21 @@ class FriendsPage extends GetView<FriendsPageController> {
                       itemCount: controller.friends.length,
                       itemBuilder: (context, index) {
                         final item = controller.friends[index];
+                        log("My Profile ID ${controller.profile.value?.id}");
+                        log("From Profile ID ${item.from}");
+
                         return FriendItem(
                           profile: controller.friends[index].profiles[0],
-                          isFriend: controller.friends[index].status == ConnectionStatus.APPROVED,
+                          isFriend: controller.friends[index].status ==
+                              ConnectionStatus.APPROVED,
                           onMessageTap: (chatWith) =>
                               controller.goToChat(chatWith),
                           wasRequestSentByMe:
                               (controller.profile.value?.id ?? "") == item.from,
-                          onFriendAccept: () => controller.onFriendAccept(connectionId: item.id),
-                          onFriendDecline: () => controller.onFriendDecline(connectionId: item.id),
+                          onFriendAccept: () =>
+                              controller.onFriendAccept(connectionId: item.id),
+                          onFriendDecline: () =>
+                              controller.onFriendDecline(connectionId: item.id),
                         );
                       }),
             )),
