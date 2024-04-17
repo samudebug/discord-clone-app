@@ -1,4 +1,5 @@
 import 'package:discord_clone_app/core/services/auth_service.dart';
+import 'package:discord_clone_app/widgets/recover_password/recover_password_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -43,6 +44,12 @@ class InitialPageController extends GetxController {
     confirmPasswordController.clear();
     pageViewController.jumpToPage(2);
     currentPage.value = 2;
+  }
+
+  openRecoverPassword() {
+    Get.dialog(Dialog(
+      child: RecoverPasswordDialog(),
+    ));
   }
 
   handleBack() {

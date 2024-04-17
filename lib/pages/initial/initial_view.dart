@@ -97,7 +97,9 @@ class InitialPage extends GetView<InitialPageController> {
                 style: context.theme.textTheme.bodySmall
                     ?.copyWith(color: context.theme.colorScheme.primary),
               ),
-              onPressed: () {},
+              onPressed: () {
+                controller.openRecoverPassword();
+              },
             ),
           ),
           Padding(

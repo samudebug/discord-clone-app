@@ -5,6 +5,7 @@ abstract class AuthRepository {
   signUp({required String email, required String password});
   signOut();
   Future<String?>? getToken();
+  Future<void> sendRecoverPasswordEmail({required String email});
 
   UserModel? currentUser();
 

@@ -25,4 +25,8 @@ class AuthService extends GetxService {
       }
     });
   }
+
+  Future<void> sendRecoverPasswordEmail({required String email}) async {
+    return repo.sendRecoverPasswordEmail(email: email);
+  }
 }

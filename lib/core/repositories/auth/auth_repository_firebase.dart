@@ -67,7 +67,7 @@ class AuthRepositoryFirebase implements AuthRepository {
 
   @override
   Future<String?>? getToken() {
-    return instance.currentUser?.getIdToken(); 
+    return instance.currentUser?.getIdToken();
   }
 
   @override
@@ -78,4 +78,9 @@ class AuthRepositoryFirebase implements AuthRepository {
               displayName: event.displayName ?? "",
               photoUrl: event.photoURL)
           : null);
+
+  @override
+  Future<void> sendRecoverPasswordEmail({required String email}) async {
+    instance.sendPasswordResetEmail(email: email);
+  }
 }
