@@ -5,6 +5,7 @@ import 'package:discord_clone_app/core/models/profile.dart';
 import 'package:discord_clone_app/core/repositories/chat/chat_repository.dart';
 import 'package:discord_clone_app/core/repositories/profile/profile_repository.dart';
 import 'package:discord_clone_app/core/services/auth_service.dart';
+import 'package:discord_clone_app/widgets/profile_info/profile_info_controller.dart';
 import 'package:get/get.dart';
 
 class ChatsPageController extends GetxController {
@@ -21,21 +22,9 @@ class ChatsPageController extends GetxController {
     init();
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    log("On Init called", name: "ChatsPageController");
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    log("On Ready called", name: "ChatsPageController");
-  }
-
   init() async {
     final Profile? profile = await profileRepo.getProfile();
-    log('Profile ${profile?.completedOnboarding}', name: "ChatsPageController");
+    Get.find<ProfileInfoController>().init();
     if (profile == null || !profile.completedOnboarding) {
       log("Has not completed onboarding", name: "ChatsPageController");
       Get.offAllNamed('/onboarding');

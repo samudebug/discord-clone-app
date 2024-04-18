@@ -11,6 +11,7 @@ abstract class ChatRepository {
   // messages
   Future<void> sendMessage({required String chatId,required String content});
   Future<void> connectToChat({required String chatId});
+  Future<void> deleteMessage({required String chatId, required String messageId});
   Stream<Message> get messagesStream;
   void disconnectFromChat();
 }

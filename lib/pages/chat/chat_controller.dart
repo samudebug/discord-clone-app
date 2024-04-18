@@ -3,13 +3,18 @@ import 'dart:developer';
 
 import 'package:discord_clone_app/core/models/chat.dart';
 import 'package:discord_clone_app/core/models/message.dart';
+import 'package:discord_clone_app/core/models/profile.dart';
 import 'package:discord_clone_app/core/repositories/chat/chat_repository.dart';
+import 'package:discord_clone_app/core/services/profile_service.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ChatPageController extends GetxController {
   final chatRepo = Get.find<ChatRepository>();
+  final profileService = Get.find<ProfileService>();
   final messages = <Message>[].obs;
   final chat = Rx<Chat?>(null);
+  final profile = Rx<Profile?>(null);
   final loading = true.obs;
   final isLoadingMore = false.obs;
   final canFetchMore = true.obs;
@@ -19,14 +24,11 @@ class ChatPageController extends GetxController {
   ChatPageController() {
     messages.clear();
     chat.value = null;
+    profile.value = null;
+    fetchProfile();
     fetchChat();
     fetchMessages();
     connectToChat();
-  }
-  @override
-  void onInit() {
-    super.onInit();
-
   }
 
   @override
@@ -35,6 +37,10 @@ class ChatPageController extends GetxController {
     chatRepo.disconnectFromChat();
     subscription.cancel();
     super.onClose();
+  }
+
+  Future<void> fetchProfile() async {
+    profile.value = await profileService.getProfile();
   }
 
   fetchChat() async {
@@ -88,5 +94,55 @@ class ChatPageController extends GetxController {
       Get.snackbar("Erro", "Ocorreu um erro");
       log(e.toString(), error: e);
     }
+  }
+
+  void openMenu({required String messageId}) {
+    log("Opening menu", name: "ChatController");
+    Get.bottomSheet(Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(color: Get.theme.colorScheme.background),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          InkWell(
+            onTap: () => deleteMessage(messageId: messageId),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              decoration: BoxDecoration(
+                  color: Get.theme.colorScheme.secondaryContainer,
+                  borderRadius: BorderRadius.circular(8)),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Icon(
+                      Icons.delete,
+                      color: Get.theme.colorScheme.error,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      "Apagar",
+                      style: TextStyle(color: Get.theme.colorScheme.error),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ));
+  }
+
+  Future<void> deleteMessage({required String messageId}) async {
+    if (chat.value == null) return;
+
+    await chatRepo.deleteMessage(chatId: chat.value!.id, messageId: messageId);
+    messages.removeWhere((element) => element.id == messageId);
+    messages.refresh();
+    Get.back();
   }
 }

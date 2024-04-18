@@ -60,7 +60,7 @@ class ProfilePage extends GetView<ProfilePageController> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: GestureDetector(
+              child: InkWell(
                 onTap: () => Get.toNamed('/profile/friends'),
                 child: Container(
                   padding:
@@ -80,7 +80,7 @@ class ProfilePage extends GetView<ProfilePageController> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: GestureDetector(
+              child: InkWell(
                 onTap: () => controller.signOut(),
                 child: Container(
                   padding:

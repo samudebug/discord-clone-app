@@ -5,6 +5,9 @@ import 'package:get/get.dart';
 class ProfileInfoController extends GetxController {
   final profileRepo = Get.find<ProfileRepository>();
   final profile = Rx<Profile?>(null);
+  
+  
+
   Future<void> init() async {
     profile.value = await profileRepo.getProfile();
   }
@@ -13,4 +16,5 @@ class ProfileInfoController extends GetxController {
     await Get.toNamed('/profile');
     init();
   }
+
 }

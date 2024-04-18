@@ -9,6 +9,7 @@ import 'package:discord_clone_app/core/repositories/profile/profile_repository_i
 import 'package:discord_clone_app/core/repositories/storage/storage_repository.dart';
 import 'package:discord_clone_app/core/repositories/storage/storage_repository_firebase.dart';
 import 'package:discord_clone_app/core/services/auth_service.dart';
+import 'package:discord_clone_app/core/services/profile_service.dart';
 import 'package:discord_clone_app/widgets/profile_info/profile_info_controller.dart';
 import 'package:discord_clone_app/widgets/recover_password/recover_password_controller.dart';
 import 'package:get/get.dart';
@@ -25,6 +26,7 @@ initRepositories() async {
 
 initServices() async {
   await Get.putAsync(() async => AuthService());
+  await Get.putAsync(() async => ProfileService());
 }
 
 globalBindings() {

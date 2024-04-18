@@ -1,5 +1,5 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class ChatInput extends StatelessWidget {
@@ -38,10 +38,12 @@ class ChatInput extends StatelessWidget {
                 Icons.send,
                 color: context.theme.colorScheme.onPrimary,
               ),
-              onPressed: () {
-                onSend(messageController.text);
-                messageController.clear();
-              }),
+              onPressed: messageController.text.isNotEmpty
+                  ? () {
+                      onSend(messageController.text);
+                      messageController.clear();
+                    }
+                  : null),
         )
       ],
     );

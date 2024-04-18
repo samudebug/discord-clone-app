@@ -1,15 +1,16 @@
+import 'dart:developer';
+
 import 'package:discord_clone_app/core/models/message.dart';
 import 'package:discord_clone_app/widgets/attachment_item/attachment_item.dart';
 import 'package:discord_clone_app/widgets/user_avatar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class MessageItem extends StatelessWidget {
-  const MessageItem({super.key, required this.message});
+  MessageItem({super.key, required this.message});
   final Message message;
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -47,14 +48,15 @@ class MessageItem extends StatelessWidget {
                   ],
                 ),
               ),
-              if(message.content.isNotEmpty && !message.content.isURL) Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-                child: Text(
-                   message.content,
-                  style: context.theme.textTheme.bodyMedium,
+              if (message.content.isNotEmpty && !message.content.isURL)
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 8),
+                  child: Text(
+                    message.content,
+                    style: context.theme.textTheme.bodyMedium,
+                  ),
                 ),
-              ),
               if (message.attachment != null)
                 Container(
                     child: AttachmentItem(

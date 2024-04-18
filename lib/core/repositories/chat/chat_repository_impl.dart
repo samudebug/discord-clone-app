@@ -181,4 +181,17 @@ class ChatRepositoryImpl extends GetConnect implements ChatRepository {
     final chat = Chat.fromJson(response.body);
     return chat;
   }
+
+  @override
+  Future<void> deleteMessage({required String chatId, required String messageId}) async {
+    final response = await delete('/chats/$chatId/messages/$messageId');
+    
+    if (response.statusCode != 200) {
+      log('Response status code: ${response.statusCode}',
+          name: 'ChatRepository');
+      log('Response body: ${response.body}', name: 'ChatRepository');
+      throw ('An error has ocurred');
+    }
+    
+  }
 }

@@ -37,9 +37,14 @@ class ChatPage extends StatelessWidget {
                 reverse: true,
                 itemBuilder: (context, index) {
                   final item = controller.messages[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(7.0),
-                    child: MessageItem(message: item),
+                  return InkWell(
+                    onLongPress: item.sender?.id == controller.profile.value?.id
+                        ? () => controller.openMenu(messageId: item.id)
+                        : null,
+                    child: Padding(
+                      padding: const EdgeInsets.all(7.0),
+                      child: MessageItem(message: item),
+                    ),
                   );
                 },
                 itemCount: controller.messages.length,
