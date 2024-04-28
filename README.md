@@ -1,16 +1,36 @@
-# discord_clone_app
+# Chat App (Discord Clone)
+This is the repository for a chat app with features similar to Discord. You can check the repository for the backend [here](https://github.com/samudebug/discord-clone-backend).
 
-A new Flutter project.
+### Structure
+The app is built using:
 
-## Getting Started
+- [Flutter](https://flutter.dev)
+- [GetX](https://pub.dev/packages/get)
+- [Firebase Authentication](https://firebase.google.com/docs/auth)
+- [Firebase Storage](https://firebase.google.com/docs/storage)
+- [video_player](https://pub.dev/packages/video_player)
+- [Socket.io](https://pub.dev/packages/socket_io_client)
 
-This project is a starting point for a Flutter application.
+### Features
+- [x] Authentication
+- [x] Onboarding
+- [x] Chats
+- [x] Messages
+- [x] Attachments
+- [x] Real Time Chat
+- [x] Profile
+- [ ] Servers
+- [ ] Channels
+- [ ] Roles
 
-A few resources to get you started if this is your first Flutter project:
+### Running the app
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Install the dependencies using:
+```sh
+flutter pub get
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Connect an Android device or run an Android Emulator, then run:
+```sh
+flutter run
+```
