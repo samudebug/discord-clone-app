@@ -9,7 +9,7 @@ abstract class ChatRepository {
   Future<Chat?> getChatWith({required String chatWith});
   Future<Chat> createChat({required String myProfile, required String chatWith});
   // messages
-  Future<void> sendMessage({required String chatId,required String content});
+  Future<void> sendMessage({required String chatId,required String content, required String attachmentUrl});
   Future<void> connectToChat({required String chatId});
   Future<void> deleteMessage({required String chatId, required String messageId});
   Stream<Message> get messagesStream;

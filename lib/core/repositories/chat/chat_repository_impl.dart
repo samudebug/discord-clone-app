@@ -84,9 +84,14 @@ class ChatRepositoryImpl extends GetConnect implements ChatRepository {
 
   @override
   Future<void> sendMessage(
-      {required String chatId, required String content}) async {
-    final response =
-        await post('/chats/$chatId/messages', {'content': content});
+      {required String chatId,
+      required String content,
+      required String attachmentUrl}) async {
+    final body = <String, dynamic>{'content': content};
+    if (attachmentUrl.isNotEmpty) {
+      body['attachmentUrl'] = attachmentUrl;
+    }
+    final response = await post('/chats/$chatId/messages', body);
 
     if (response.statusCode != 201) {
       log('Response status code: ${response.statusCode}',
@@ -183,15 +188,15 @@ class ChatRepositoryImpl extends GetConnect implements ChatRepository {
   }
 
   @override
-  Future<void> deleteMessage({required String chatId, required String messageId}) async {
+  Future<void> deleteMessage(
+      {required String chatId, required String messageId}) async {
     final response = await delete('/chats/$chatId/messages/$messageId');
-    
+
     if (response.statusCode != 200) {
       log('Response status code: ${response.statusCode}',
           name: 'ChatRepository');
       log('Response body: ${response.body}', name: 'ChatRepository');
       throw ('An error has ocurred');
     }
-    
   }
 }

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:discord_clone_app/core/repositories/storage/storage_repository.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:mime/mime.dart';
 
 class StorageRepositoryFirebase implements StorageRepository {
   final instance = FirebaseStorage.instance;
@@ -13,7 +14,9 @@ class StorageRepositoryFirebase implements StorageRepository {
     final storageRef = instance.ref();
     final fileRef = storageRef.child('avatars/${basename(file.path)}');
     try {
-      await fileRef.putFile(file);
+      await fileRef.putFile(
+          file, SettableMetadata(contentType: lookupMimeType(file.path)));
+      log("Image Upload successful", name: "StorageRepository");
       return await fileRef.getDownloadURL();
     } catch (e) {
       log(e.toString(), error: e, name: "StorageRepository");

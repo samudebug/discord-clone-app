@@ -1,23 +1,28 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:discord_clone_app/core/models/chat.dart';
 import 'package:discord_clone_app/core/models/message.dart';
 import 'package:discord_clone_app/core/models/profile.dart';
 import 'package:discord_clone_app/core/repositories/chat/chat_repository.dart';
+import 'package:discord_clone_app/core/repositories/storage/storage_repository.dart';
 import 'package:discord_clone_app/core/services/profile_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ChatPageController extends GetxController {
   final chatRepo = Get.find<ChatRepository>();
   final profileService = Get.find<ProfileService>();
+  final storageRepo = Get.find<StorageRepository>();
   final messages = <Message>[].obs;
   final chat = Rx<Chat?>(null);
   final profile = Rx<Profile?>(null);
   final loading = true.obs;
   final isLoadingMore = false.obs;
   final canFetchMore = true.obs;
+  final attachmentUrl = ''.obs;
   late final StreamSubscription subscription;
 
   int currentPage = 0;
@@ -85,11 +90,12 @@ class ChatPageController extends GetxController {
     }
   }
 
-  sendMessage(String message) async {
+  sendMessage(String message, String attachmentUrl) async {
     try {
       final chatId = Get.parameters['chatId'];
       if (chatId == null) throw ("Chat ID not set!");
-      await chatRepo.sendMessage(chatId: chatId!, content: message);
+      await chatRepo.sendMessage(chatId: chatId!, content: message, attachmentUrl: attachmentUrl);
+      this.attachmentUrl.value = '';
     } catch (e) {
       Get.snackbar("Erro", "Ocorreu um erro");
       log(e.toString(), error: e);
@@ -97,7 +103,6 @@ class ChatPageController extends GetxController {
   }
 
   void openMenu({required String messageId}) {
-    log("Opening menu", name: "ChatController");
     Get.bottomSheet(Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(color: Get.theme.colorScheme.background),
@@ -144,5 +149,17 @@ class ChatPageController extends GetxController {
     messages.removeWhere((element) => element.id == messageId);
     messages.refresh();
     Get.back();
+  }
+
+  pickAttachment() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickMedia();
+    if (image != null) {
+      final file = File(image.path);
+      log("Uploading file");
+      final url= await storageRepo.uploadFile(file);
+      log("url $url");
+      attachmentUrl.value = url;
+    }
   }
 }

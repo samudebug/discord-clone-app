@@ -50,8 +50,11 @@ class ChatPage extends StatelessWidget {
                 itemCount: controller.messages.length,
               )),
               ChatInput(
-                onSend: (message) => controller.sendMessage(message),
+                onSend: (message, attachmentUrl) =>
+                    controller.sendMessage(message, attachmentUrl),
                 chatTitle: controller.chat.value?.members?[0].displayName ?? "",
+                onPickAttachment: () => controller.pickAttachment(),
+                attachmentUrl: controller.attachmentUrl.value,
               )
             ],
           ),
